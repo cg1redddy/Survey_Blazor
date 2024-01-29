@@ -1,0 +1,89 @@
+@page "/"
+
+<PageTitle>Survey</PageTitle>
+
+@using SurevyPoC.Data
+@inject ISurveyService SurveyService
+
+@if (surveys == null && surveys == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div>
+    <h3 class="bg-color-height">My Active Surveys</h3>
+    <p class="container operatorInfo">@surveyOperator.oper_name @surveyOperator.whole_name - @surveyOperator.state_alpha -
+        @surveyOperator.state_id
+    </p>
+    @if (activeSurveys.Count == 0)
+        {
+            <p class="container">No active surveys to display</p>
+        }
+        else
+        {
+            <Table Items="activeSurveys">
+                <Columns>
+                    <Column Name="survey_title"></Column>
+                    <Column Name="capi_stop_date"></Column>
+                    <Column Name="status"></Column>
+                </Columns>
+            </Table>
+        }
+    </div>
+    <div>
+    <h3 class="bg-color-height">My Upcoming Surveys</h3>
+    @if (upcomingSurveys.Count == 0)
+        {
+            <p class="container">No upcoming surveys to display</p>
+        }
+        else
+        {
+            <Table Items="upcomingSurveys">
+                <Columns>
+                    <Column Name="survey_title"></Column>
+                    <Column Name="capi_stop_date"></Column>
+                    <Column Name="status"></Column>
+                </Columns>
+            </Table>
+        }
+    </div>
+    <div>
+    <h3 class="bg-color-height">My Past Surveys</h3>
+    @if (pastSurveys.Count == 0)
+        {
+            <p class="container">No past surveys to display</p>
+        }
+        else
+        {
+            <Table Items="pastSurveys">
+                <Columns>
+                    <Column Name="survey_title"></Column>
+                    <Column Name="capi_stop_date"></Column>
+                    <Column Name="status"></Column>
+                </Columns>
+            </Table>
+        }
+    </div>
+}
+
+@code {
+    private List<SurveyDetails> surveys, activeSurveys, upcomingSurveys, pastSurveys;
+    private SurveyOperator surveyOperator;
+
+    protected override async Task OnInitializedAsync()
+    {
+        surveyOperator = await SurveyService.GetSurveyOperatorAsync();
+        surveys = await SurveyService.GetSurveyDetailsAsync();
+
+        activeSurveys = surveys.Where(x => DateTime.Parse(x.survey_date) < DateTime.Now
+        && DateTime.Parse(x.due_date) > DateTime.Now).ToList();
+
+        upcomingSurveys = surveys.Where(x => DateTime.Parse(x.survey_date) > DateTime.Now
+        && DateTime.Parse(x.due_date) > DateTime.Parse(x.survey_date)).ToList();
+
+        pastSurveys = surveys.Where(x => DateTime.Parse(x.survey_date) < DateTime.Now
+        && DateTime.Parse(x.due_date) < DateTime.Now).ToList();
+
+    }
+}

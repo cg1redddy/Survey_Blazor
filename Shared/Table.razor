@@ -1,0 +1,31 @@
+<div class="container">
+    <table class="table text-center">
+        <thead>
+            <tr>
+                @Columns(null)
+                <td><b>Action</b></td>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var survey in Items)
+            {
+                <CascadingValue Value="@survey">
+                    <tr class="mx-auto">
+                        @Columns(survey)
+                        <button class="btn btn-sm surveyButton">Start Survey</button>
+                    </tr>
+                </CascadingValue>
+            }
+        </tbody>
+    </table>
+</div>
+
+@code {
+    [Parameter]
+    public List<SurveyDetails> Items { get; set; }
+
+    [Parameter]
+    public RenderFragment<SurveyDetails> Columns { get; set; }
+
+}

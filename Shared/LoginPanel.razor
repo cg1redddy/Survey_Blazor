@@ -1,0 +1,26 @@
+@using SurevyPoC.Data
+@inject ISurveyService SurveyService
+@if (surveyOperator == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+
+    <div class="loginHeader">
+    <div class="surveyOperator">
+        @surveyOperator.oper_name @surveyOperator.whole_name - @surveyOperator.state_alpha - @surveyOperator.state_id
+    </div>
+    <div class="top-row">
+        <button class="btn btn-sm bg-color">Logout</button>
+    </div>
+</div>
+}
+@code {
+    private SurveyOperator surveyOperator;
+
+    protected override async Task OnInitializedAsync()
+    {
+        surveyOperator = await SurveyService.GetSurveyOperatorAsync();
+    }
+}

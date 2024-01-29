@@ -1,0 +1,9 @@
+table {
+    border-collapse: separate;
+    border-spacing: 0 15px;
+}
+
+.surveyButton {
+    background-color: #3B71CA;
+    color: whitesmoke;
+}

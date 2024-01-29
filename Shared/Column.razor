@@ -1,0 +1,27 @@
+@using System.Reflection
+@using System.ComponentModel.DataAnnotations
+
+@if (Item == null)
+{
+    MemberInfo myprop = typeof(SurveyDetails).GetProperty(Name) as MemberInfo;
+    var field = @myprop.GetCustomAttribute(typeof(DisplayAttribute)) as DisplayAttribute;
+    if (field != null)
+    {
+        <th>@field.Name</th>
+    }
+}
+else
+{
+    var property = typeof(SurveyDetails).GetProperty(Name);
+    <td>@property.GetValue(Item).ToString()</td>
+}
+@code {
+    [Parameter]
+    public string Name { get; set; }
+    @*
+[Parameter]
+public string Label { get; set; } *@
+
+    [CascadingParameter]
+    public SurveyDetails Item { get; set; }
+}

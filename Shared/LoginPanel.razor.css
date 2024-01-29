@@ -1,0 +1,27 @@
+.loginHeader {
+    height: 3.5rem;
+    background-color: #155158;
+    display: flex;
+    position: relative;
+}
+
+.loginHeader .surveyOperator {
+    display: flex;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+    color: whitesmoke;
+    height: 3.5rem;
+    align-items: center;
+    font-size: 26px;
+}
+
+.loginHeader .top-row {
+    /* margin-left: auto; */
+    height: 3.5rem;
+    display: flex;
+    margin-left: auto;
+    align-items: center;
+    justify-content: center;
+    padding-right: 10px;
+}
